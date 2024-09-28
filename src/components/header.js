@@ -1,0 +1,73 @@
+import '../styles/header.css'
+import HomeSharpIcon from '@mui/icons-material/HomeSharp';
+import Tooltip from '@mui/material/Tooltip'; 
+import ArticleSharpIcon from '@mui/icons-material/ArticleSharp';
+import MessageSharpIcon from '@mui/icons-material/MessageSharp';
+import InsightsSharpIcon from '@mui/icons-material/InsightsSharp';
+import {Link} from 'react-router-dom';
+import  { useState } from 'react';    
+export default function Header(title){
+    const {titleText} = title
+   return <>
+      <header>
+        <section class="header-title-line">
+        <h1 class="image-container"></h1>
+        <h1>
+            {titleText}
+        </h1>
+        <button class="menu-button">
+        <div class="menu-icon"></div>
+    
+        </button>     
+        </section>
+        <nav>
+            <ul>
+                <li> 
+                <Link to = '/'> 
+                    <a href='#'>
+                    <Tooltip title="Home" placement='right' arrow>
+                     <HomeSharpIcon/>  
+                     </Tooltip>
+                </a> 
+                </Link>    
+                </li>
+               
+            <li>
+            <Link to = '/solution-articles'>  
+                <a href='#'>
+                       <Tooltip title="Solution articles" placement='right' arrow>
+                      <ArticleSharpIcon/>
+                       </Tooltip>
+                </a>
+                </Link>           
+            </li>
+            
+            <li>
+                
+                <Link to='/chat-widget'>          
+                <a href='#'>     
+                        <Tooltip title="Chat widget" placement='right' arrow>
+                        <MessageSharpIcon/>
+                        </Tooltip>
+                    </a>
+                    </Link>       
+            </li>
+                
+            <li>
+                <a href='#'>
+                    <Link to='/reports'> 
+                    <Tooltip title="Create reports" placement='right' arrow>
+                      <InsightsSharpIcon/> 
+                      </Tooltip>
+                        </Link>    
+                    </a>
+                </li>  
+        </ul>
+        </nav>
+    </header>
+
+    <main>
+    </main>
+
+    </>
+}

@@ -1,24 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-
+import NeoPage from './components/neoPage';
+import {Routes,Route} from 'react-router-dom';
+// import NeoPage from './components/neoPage';
+import ChatWidget from './components/chatWidget';
+import Reports from './components/reports';
+import SolutionArticle from './components/solutionArticle';
 function App() {
-  return (
+  
+  return (<>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Routes>
+            <Route path = '/' element = {<NeoPage/>}/>
+            <Route path = '/solution-articles' element= {<SolutionArticle/>}/>
+            <Route path = '/chat-widget' element={<ChatWidget/>}/>
+            <Route path = '/reports' element={<Reports/>}/>
+        </Routes> 
     </div>
+    </>
   );
 }
 

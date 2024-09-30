@@ -10,7 +10,7 @@ export default function Header(title){
     const {titleText} = title
    return <>
       <header>
-        <section class="header-title-line">
+        <section className="header-title-line">
         <h1 class="image-container"></h1>
         <h1>
             {titleText}

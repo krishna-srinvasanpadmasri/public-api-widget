@@ -2,3 +2,8 @@ h1{
  display: flex;
  align-items: center;
 }
+div.account-json{
+    font-family: monospace;
+    color: rgb(0, 0, 0);
+    background-color: #d4d4c8e4;
+}

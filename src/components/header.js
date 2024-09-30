@@ -4,8 +4,8 @@ import Tooltip from '@mui/material/Tooltip';
 import ArticleSharpIcon from '@mui/icons-material/ArticleSharp';
 import MessageSharpIcon from '@mui/icons-material/MessageSharp';
 import InsightsSharpIcon from '@mui/icons-material/InsightsSharp';
-import {Link} from 'react-router-dom';
-import  { useState } from 'react';    
+import Configuration from './configuration';
+import {Link} from 'react-router-dom';   
 export default function Header(title){
     const {titleText} = title
    return <>
@@ -14,15 +14,14 @@ export default function Header(title){
         <h1 class="image-container"></h1>
         <h1>
             {titleText}
-        </h1>
-        <button class="menu-button">
+        </h1>      
+    <button class="menu-button">
         <div class="menu-icon"></div>
-    
-        </button>     
+    </button>     
         </section>
         <nav>
             <ul>
-                <li> 
+            <li> 
                 <Link to = '/'> 
                     <a href='#'>
                     <Tooltip title="Home" placement='right' arrow>
@@ -30,8 +29,7 @@ export default function Header(title){
                      </Tooltip>
                 </a> 
                 </Link>    
-                </li>
-               
+            </li>    
             <li>
             <Link to = '/solution-articles'>  
                 <a href='#'>
@@ -40,8 +38,7 @@ export default function Header(title){
                        </Tooltip>
                 </a>
                 </Link>           
-            </li>
-            
+            </li>  
             <li>
                 
                 <Link to='/chat-widget'>          
@@ -51,8 +48,7 @@ export default function Header(title){
                         </Tooltip>
                     </a>
                     </Link>       
-            </li>
-                
+            </li>               
             <li>
                 <a href='#'>
                     <Link to='/reports'> 
@@ -61,13 +57,12 @@ export default function Header(title){
                       </Tooltip>
                         </Link>    
                     </a>
-                </li>  
+            </li>  
         </ul>
         </nav>
     </header>
-
-    <main>
-    </main>
-
+    <br/>
+    <Configuration/>
+    <br/>
     </>
 }

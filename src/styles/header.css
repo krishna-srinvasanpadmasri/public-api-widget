@@ -137,4 +137,21 @@ h1.image-container {
     background-size: contain;      
     background-position: center;      
   }    
+  .mandate-input-field{
+    background-color: aliceblue;
+    color: aliceblue;
+  }
+  .mandate-input-field:hover,.mandate-input-field:active,.mandate-input-field:focus{
+    background-color: whitesmoke;
+    color: aliceblue;
+  }
+.configuration-info{
+    background-color: bisque;
+}
+.config-input{
+    display: flex;
+    justify-content: flex-start;
+}
+
+
 

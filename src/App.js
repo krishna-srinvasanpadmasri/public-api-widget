@@ -1,7 +1,6 @@
 import './App.css';
 import NeoPage from './components/neoPage';
 import {Routes,Route} from 'react-router-dom';
-// import NeoPage from './components/neoPage';
 import ChatWidget from './components/chatWidget';
 import Reports from './components/reports';
 import SolutionArticle from './components/solutionArticle';
@@ -14,7 +13,7 @@ function App() {
             <Route path = '/solution-articles' element= {<SolutionArticle/>}/>
             <Route path = '/chat-widget' element={<ChatWidget/>}/>
             <Route path = '/reports' element={<Reports/>}/>
-        </Routes> 
+    </Routes> 
     </div>
     </>
   );

@@ -1,4 +1,4 @@
-export function getHeaderText() {
+export async function getHeaderText() {
   let headerPath = window.location.pathname;
   let headerText = headerPath.replace(/[-\\/]/g, (match) => {
     if (match === "-") return " ";

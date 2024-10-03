@@ -2,6 +2,7 @@
   "name": "unity-pa",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://staging.freshpori.com",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -15,8 +16,7 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4",
-    "proxy": "https://api-staging.freshpori.com"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

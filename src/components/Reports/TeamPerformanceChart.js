@@ -23,7 +23,6 @@ const TeamPerformanceChart = ({ data }) => {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Legend></Legend>
         <Line
           type="monotone"
           dataKey="value"

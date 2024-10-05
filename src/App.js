@@ -2,7 +2,7 @@ import "./App.css";
 import NeoPage from "./components/NeoPage/NeoPage";
 import { Routes, Route } from "react-router-dom";
 import ChatWidget from "./components/ChatWidget/chatWidget";
-import Reports from "./components/reports";
+import Reports from "./components/Reports/reports";
 import SolutionArticle from "./components/solutionArticle";
 import Header from "./components/Header/header";
 

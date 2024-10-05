@@ -10,6 +10,7 @@ export default function NeoPage() {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       setToken(event.target.value);
+      localStorage.setItem("apiToken", event.target.value);
     }
   };
   const [account, setAccount] = useState([]);

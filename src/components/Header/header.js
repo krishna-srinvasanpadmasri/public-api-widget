@@ -64,9 +64,7 @@ export default function Header() {
           </ul>
         </nav>
       </header>
-      <br />
       <Configuration />
-      <br />
     </>
   );
 }

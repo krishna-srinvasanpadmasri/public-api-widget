@@ -1,0 +1,22 @@
+div.date-time-picker{
+    display: flex;
+}
+div.result-wrapper{
+    background-color: black;
+    width: 100vw;
+}
+div.widget-container{
+    display: grid;
+    justify-items: center;          
+    align-items: center;    
+    grid-template-areas:             
+    "title widget"            
+    "title  widget"            
+    "title  widget";            
+}
+div.widget-title{
+grid-area: title;
+}
+div.widget{
+    grid-area: widget;
+}

@@ -80,8 +80,8 @@ export default function Reports() {
             const avghistoricFRTLastWeekData = await getHistoricalMetric(
               token,
               "team_performance.first_response_time",
-              endDateTime,
               endDateTime2,
+              endDateTime,
               "avg"
             );
             const minhisroticFRTThisWeekData = await getHistoricalMetric(

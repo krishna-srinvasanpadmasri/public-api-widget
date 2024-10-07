@@ -16,7 +16,7 @@ const TeamPerformanceChart = ({ data }) => {
   }));
 
   return (
-    <ResponsiveContainer width="80%" height={400}>
+    <ResponsiveContainer width="50%" height={400}>
       <LineChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />

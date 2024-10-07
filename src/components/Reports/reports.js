@@ -45,37 +45,77 @@ export default function Reports() {
       },
     ],
   };
-  const [metricData, setMetricData] = useState(null);
+  const [avgFRTThisWeekData, setAvgFRTThisWeekData] = useState(null);
+  const [avgFRTLastWeekData, setAvgFRTLastWeekData] = useState(null);
+  const [minFRTThisWeekData, setminFRTThisWeekData] = useState(null);
   const token = localStorage.getItem("apiToken");
+  const twoWeeksBefore = dayjs()
+    .subtract(14, "day")
+    .format("YYYY-MM-DDTHH:mm:ss");
   const oneWeekBefore = dayjs()
-    .subtract(7, "day")
+    .subtract(14, "day")
     .format("YYYY-MM-DDTHH:mm:ss"); // Subtract 7 days
   const today = dayjs().format("YYYY-MM-DDTHH:mm:ss");
+  const [endDateTime2, setEndDateTime2] = useState(`${twoWeeksBefore}Z`);
   const [startDateTime, setStartDateTime] = useState(`${oneWeekBefore}Z`);
   const [endDateTime, setEndDateTime] = useState(`${today}Z`);
-  let data = metricData === null ? chartData.data : metricData.data;
+  let avgFRTData =
+    avgFRTThisWeekData === null ? chartData.data : avgFRTThisWeekData.data;
+  let avgFRTDataLastWeek =
+    avgFRTLastWeekData === null ? chartData.data : avgFRTLastWeekData.data;
+  let minFRTData =
+    minFRTThisWeekData === null ? chartData.data : avgFRTThisWeekData.data;
   return (
     <>
       <div className="result-wrapper">
         <Button
           onClick={async () => {
-            const historicTeamPerformanceData = await getHistoricalMetric(
+            const avghistoricFRTThisWeekData = await getHistoricalMetric(
               token,
-              "team_performance",
+              "team_performance.first_response_time",
               startDateTime,
               endDateTime,
               "avg"
             );
-            setMetricData(historicTeamPerformanceData);
-            chartData = metricData;
+            const avghistoricFRTLastWeekData = await getHistoricalMetric(
+              token,
+              "team_performance.first_response_time",
+              endDateTime,
+              endDateTime2,
+              "avg"
+            );
+            const minhisroticFRTThisWeekData = await getHistoricalMetric(
+              token,
+              "team_performance.first_response_time",
+              startDateTime,
+              endDateTime,
+              "min"
+            );
+            setAvgFRTThisWeekData(avghistoricFRTThisWeekData);
+            setAvgFRTLastWeekData(avghistoricFRTLastWeekData);
+            setminFRTThisWeekData(minhisroticFRTThisWeekData);
+            // chartData = avgFRTThisWeekData;
           }}
         >
           Refresh Data
         </Button>
       </div>
       <div className="widget-container">
-        <h3 className="widget-title">Average Team Performance Chart</h3>
-        <TeamPerformanceChart data={data} className="widget" />
+        <h3 className="this-week-widget-title">
+          Average Team Performance This Week
+        </h3>
+        <TeamPerformanceChart data={avgFRTData} className="this-week-widget" />
+        <h3 className="last-week-widget-title">
+          Average Team Performance Last Week
+        </h3>
+        <TeamPerformanceChart
+          data={avgFRTDataLastWeek}
+          className="last-week-widget"
+        />
+        <h3 className="this-week-widget-title">
+          Minimum Team Performance This Week
+        </h3>
+        <TeamPerformanceChart data={minFRTData} className="this-week-widget" />
       </div>
     </>
   );

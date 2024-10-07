@@ -10,13 +10,14 @@ div.widget-container{
     justify-items: center;          
     align-items: center;    
     grid-template-areas:             
-    "title widget"            
-    "title  widget"            
-    "title  widget";            
+    "last-week-widget this-week-widget"            
+    "last-week-widget this-week-widget" ;       
 }
-div.widget-title{
-grid-area: title;
+
+div.last-week-widget{
+    grid-area: last-week-widget;
 }
-div.widget{
-    grid-area: widget;
+
+div.this-week-widget{
+        grid-area: this-week-widget;
 }

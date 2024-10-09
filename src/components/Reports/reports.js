@@ -1,10 +1,11 @@
 import { getHistoricalMetric } from "./Utils";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import dayjs from "dayjs";
 import "./Style.css";
 import { Button } from "@mui/material";
 import TeamPerformanceChart from "./TeamPerformanceChart";
+import SyncIcon from "@mui/icons-material/Sync";
 
 export default function Reports() {
   let chartData = {
@@ -48,15 +49,18 @@ export default function Reports() {
   const [avgFRTThisWeekData, setAvgFRTThisWeekData] = useState(null);
   const [avgFRTLastWeekData, setAvgFRTLastWeekData] = useState(null);
   const [minFRTThisWeekData, setminFRTThisWeekData] = useState(null);
+  const [avgRTThisWeekData, setAvgRTThisWeekData] = useState(null);
+  const [avgRTLastWeekData, setAvgRTLastWeekData] = useState(null);
+  const [minRTThisWeekData, setminRTThisWeekData] = useState(null);
   const token = localStorage.getItem("apiToken");
   const twoWeeksBefore = dayjs()
     .subtract(14, "day")
     .format("YYYY-MM-DDTHH:mm:ss");
   const oneWeekBefore = dayjs()
-    .subtract(14, "day")
+    .subtract(7, "day")
     .format("YYYY-MM-DDTHH:mm:ss"); // Subtract 7 days
   const today = dayjs().format("YYYY-MM-DDTHH:mm:ss");
-  const [endDateTime2, setEndDateTime2] = useState(`${twoWeeksBefore}Z`);
+  const [startDateTime1, setEndDateTime1] = useState(`${twoWeeksBefore}Z`);
   const [startDateTime, setStartDateTime] = useState(`${oneWeekBefore}Z`);
   const [endDateTime, setEndDateTime] = useState(`${today}Z`);
   let avgFRTData =
@@ -64,10 +68,17 @@ export default function Reports() {
   let avgFRTDataLastWeek =
     avgFRTLastWeekData === null ? chartData.data : avgFRTLastWeekData.data;
   let minFRTData =
-    minFRTThisWeekData === null ? chartData.data : avgFRTThisWeekData.data;
+    minFRTThisWeekData === null ? chartData.data : minFRTThisWeekData.data;
+  let avgRTData =
+    avgRTThisWeekData === null ? chartData.data : avgRTThisWeekData.data;
+  let avgRTDataLastWeek =
+    avgRTLastWeekData === null ? chartData.data : avgRTLastWeekData.data;
+  let minRTData =
+    minFRTThisWeekData === null ? chartData.data : minRTThisWeekData.data;
+
   return (
-    <>
-      <div className="result-wrapper">
+    <div className="container">
+      <div className="button-container">
         <Button
           onClick={async () => {
             const avghistoricFRTThisWeekData = await getHistoricalMetric(
@@ -80,8 +91,8 @@ export default function Reports() {
             const avghistoricFRTLastWeekData = await getHistoricalMetric(
               token,
               "team_performance.first_response_time",
-              endDateTime2,
-              endDateTime,
+              startDateTime1,
+              startDateTime,
               "avg"
             );
             const minhisroticFRTThisWeekData = await getHistoricalMetric(
@@ -91,32 +102,84 @@ export default function Reports() {
               endDateTime,
               "min"
             );
+            const avghistoricRTThisWeekData = await getHistoricalMetric(
+              token,
+              "team_performance.response_time",
+              startDateTime,
+              endDateTime,
+              "avg"
+            );
+            const avghistoricRTLastWeekData = await getHistoricalMetric(
+              token,
+              "team_performance.response_time",
+              startDateTime1,
+              startDateTime,
+              "avg"
+            );
+            const minhisroticRTThisWeekData = await getHistoricalMetric(
+              token,
+              "team_performance.response_time",
+              startDateTime,
+              endDateTime,
+              "min"
+            );
             setAvgFRTThisWeekData(avghistoricFRTThisWeekData);
             setAvgFRTLastWeekData(avghistoricFRTLastWeekData);
             setminFRTThisWeekData(minhisroticFRTThisWeekData);
+            setAvgRTThisWeekData(avghistoricRTThisWeekData);
+            setAvgRTLastWeekData(avghistoricRTLastWeekData);
+            setminRTThisWeekData(minhisroticRTThisWeekData);
             // chartData = avgFRTThisWeekData;
           }}
+          className="fetch-cta"
         >
-          Refresh Data
+          <SyncIcon />
         </Button>
       </div>
       <div className="widget-container">
-        <h3 className="this-week-widget-title">
-          Average Team Performance This Week
-        </h3>
-        <TeamPerformanceChart data={avgFRTData} className="this-week-widget" />
-        <h3 className="last-week-widget-title">
-          Average Team Performance Last Week
-        </h3>
+        <TeamPerformanceChart
+          data={avgFRTData}
+          widgetName="Average Team Performance This Week"
+          className="this-week-widget"
+        />
         <TeamPerformanceChart
           data={avgFRTDataLastWeek}
+          widgetName="Average Team Performance Last Week"
           className="last-week-widget"
         />
-        <h3 className="this-week-widget-title">
-          Minimum Team Performance This Week
-        </h3>
-        <TeamPerformanceChart data={minFRTData} className="this-week-widget" />
+        <TeamPerformanceChart
+          data={minFRTData}
+          widgetName="Minimum Team Performance Last Week"
+          className="last-week-widget"
+        />
+        <TeamPerformanceChart
+          data={minFRTData}
+          widgetName="Minimum Team Performance This Week"
+          className="this-week-widget"
+        />
+
+        <TeamPerformanceChart
+          data={avgRTData}
+          widgetName="Average Team Performance RT This Week"
+          className="this-week-widget"
+        />
+
+        <TeamPerformanceChart
+          data={avgRTDataLastWeek}
+          widgetName="Average Team Performance RT Last Week"
+          className="last-week-widget"
+        />
+        <TeamPerformanceChart
+          data={minFRTData}
+          widgetName="Minimum Team Performance Last Week"
+          className="last-week-widget"
+        />
+        <TeamPerformanceChart
+          widgetName="Minimum Team Performance RT This Week"
+          data={minRTData}
+          className="this-week-widget"
+        />
       </div>
-    </>
+    </div>
   );
 }

@@ -1,10 +1,37 @@
 div.date-time-picker{
     display: flex;
 }
-div.result-wrapper{
-    background-color: black;
-    width: 100vw;
+div.container{
+    background-color: #E6F3FF;
 }
+.button-container{
+    display: flex;          
+    justify-content: right;          
+    align-items: center;  
+}
+button.fetch-cta{
+    position: relative;
+    background-color: #008CBA;
+    color: white;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid black;
+}
+button.fetch-cta:active,
+button.fetch-cta:hover {
+    background-color: #3e8e41;
+    transform: translateY(4px) rotate(360deg);
+    animation-name: button;
+    animation-duration: 1s;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  }
+@keyframes button {
+    from {background-color: #008CBA;
+        transform: translateY(4px) rotate(0deg);}
+    to {background-color: #3e8e41;
+        transform: translateY(4px) rotate(360deg);}
+}  
+
 div.widget-container{
     display: grid;
     justify-items: center;          

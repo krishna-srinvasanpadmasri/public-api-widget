@@ -64,7 +64,7 @@ export default function Header() {
           </ul>
         </nav>
       </header>
-      <Configuration />
+      {/* <Configuration /> */}
     </>
   );
 }

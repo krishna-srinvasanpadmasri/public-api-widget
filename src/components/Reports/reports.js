@@ -49,9 +49,12 @@ export default function Reports() {
   const [avgFRTThisWeekData, setAvgFRTThisWeekData] = useState(null);
   const [avgFRTLastWeekData, setAvgFRTLastWeekData] = useState(null);
   const [minFRTThisWeekData, setminFRTThisWeekData] = useState(null);
+  const [minFRTLastWeekData, setminFRTLastsWeekData] = useState(null);
+  const [maxFRTThisWeekData, setmaxFRTThisWeekData] = useState(null);
   const [avgRTThisWeekData, setAvgRTThisWeekData] = useState(null);
   const [avgRTLastWeekData, setAvgRTLastWeekData] = useState(null);
   const [minRTThisWeekData, setminRTThisWeekData] = useState(null);
+  const [maxRTThisWeekData, setmaxRTThisWeekData] = useState(null);
   const token = localStorage.getItem("apiToken");
   const twoWeeksBefore = dayjs()
     .subtract(14, "day")
@@ -69,6 +72,10 @@ export default function Reports() {
     avgFRTLastWeekData === null ? chartData.data : avgFRTLastWeekData.data;
   let minFRTData =
     minFRTThisWeekData === null ? chartData.data : minFRTThisWeekData.data;
+  let minFRTDataLastWeek =
+    minFRTLastWeekData === null ? chartData.data : minFRTLastWeekData.data;
+  let maxFRTData =
+    maxFRTThisWeekData === null ? chartData.data : maxFRTThisWeekData.data;
   let avgRTData =
     avgRTThisWeekData === null ? chartData.data : avgRTThisWeekData.data;
   let avgRTDataLastWeek =
@@ -138,15 +145,16 @@ export default function Reports() {
       </div>
       <div className="widget-container">
         <TeamPerformanceChart
-          data={avgFRTData}
-          widgetName="Average Team Performance This Week"
-          className="this-week-widget"
-        />
-        <TeamPerformanceChart
           data={avgFRTDataLastWeek}
           widgetName="Average Team Performance Last Week"
           className="last-week-widget"
         />
+        <TeamPerformanceChart
+          data={avgFRTData}
+          widgetName="Average Team Performance This Week"
+          className="this-week-widget"
+        />
+
         <TeamPerformanceChart
           data={minFRTData}
           widgetName="Minimum Team Performance Last Week"
@@ -159,16 +167,16 @@ export default function Reports() {
         />
 
         <TeamPerformanceChart
+          data={avgRTDataLastWeek}
+          widgetName="Average Team Performance RT Last Week"
+          className="last-week-widget"
+        />
+        <TeamPerformanceChart
           data={avgRTData}
           widgetName="Average Team Performance RT This Week"
           className="this-week-widget"
         />
 
-        <TeamPerformanceChart
-          data={avgRTDataLastWeek}
-          widgetName="Average Team Performance RT Last Week"
-          className="last-week-widget"
-        />
         <TeamPerformanceChart
           data={minFRTData}
           widgetName="Minimum Team Performance Last Week"

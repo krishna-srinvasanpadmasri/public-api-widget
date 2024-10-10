@@ -51,6 +51,7 @@ export default function Reports() {
   const [minFRTThisWeekData, setminFRTThisWeekData] = useState(null);
   const [minFRTLastWeekData, setminFRTLastsWeekData] = useState(null);
   const [maxFRTThisWeekData, setmaxFRTThisWeekData] = useState(null);
+  const [maxFRTLastWeekData, setmaxFRTLastWeekData] = useState(null);
   const [avgRTThisWeekData, setAvgRTThisWeekData] = useState(null);
   const [avgRTLastWeekData, setAvgRTLastWeekData] = useState(null);
   const [minRTThisWeekData, setminRTThisWeekData] = useState(null);
@@ -76,6 +77,8 @@ export default function Reports() {
     minFRTLastWeekData === null ? chartData.data : minFRTLastWeekData.data;
   let maxFRTData =
     maxFRTThisWeekData === null ? chartData.data : maxFRTThisWeekData.data;
+  let maxFRTDataLastWeek =
+    maxFRTLastWeekData === null ? chartData.data : maxFRTLastWeekData.data;
   let avgRTData =
     avgRTThisWeekData === null ? chartData.data : avgRTThisWeekData.data;
   let avgRTDataLastWeek =

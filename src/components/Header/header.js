@@ -14,7 +14,7 @@ export default function Header() {
   // setTitleText(text);
   // debugger;
   return (
-    <>
+    <div className="container">
       <header>
         <section className="header-title-line">
           <h1 class="image-container"></h1>
@@ -65,6 +65,6 @@ export default function Header() {
         </nav>
       </header>
       {/* <Configuration /> */}
-    </>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+
 const TeamPerformanceChart = ({ data, widgetName = "dummy" }) => {
   const chartData = data[0].series[0].values.map((item) => ({
     name: item.key,

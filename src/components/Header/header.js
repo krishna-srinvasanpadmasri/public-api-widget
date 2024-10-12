@@ -46,7 +46,7 @@ export default function Header() {
             <li>
               <Link to="/chat-widget">
                 <a href="#">
-                  <Tooltip title="Chat widget" placement="right" arrow>
+                  <Tooltip title="Conversation seeder" placement="right" arrow>
                     <MessageSharpIcon />
                   </Tooltip>
                 </a>

@@ -161,3 +161,109 @@ export async function sendTextMessage(
   }
   return null;
 }
+export async function getAllChannels(token) {
+  try {
+    const response = await fetch(`v2/channels`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // `response` is the promise's resolved value, which contains the API response
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const conversationDetails = await response.json(); // Parse the JSON from the response
+
+    return conversationDetails;
+  } catch (err) {
+    console.error("Error while fetching all channels", err);
+  }
+  return null;
+}
+
+export async function getChannelAlias(token, channelName) {
+  try {
+    let allChannelDetails = await getAllChannels(token);
+    let channelDetails = allChannelDetails["channels"].filter(
+      (channel) => channel.name === channelName
+    );
+    return channelDetails[0].id;
+  } catch (err) {
+    console.error("Error while fetching all channels", err);
+  }
+}
+export async function getAllGroups(token) {
+  try {
+    const response = await fetch(`v2/groups`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // `response` is the promise's resolved value, which contains the API response
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const conversationDetails = await response.json(); // Parse the JSON from the response
+
+    return conversationDetails;
+  } catch (err) {
+    console.error("Error while fetching all groups", err);
+  }
+  return null;
+}
+
+export async function getgroupAlias(token, groupName) {
+  try {
+    let allgroupDetails = await getAllGroups(token);
+    let groupDetails = allgroupDetails["groups"].filter(
+      (group) => group.name === groupName
+    );
+    return groupDetails[0].id;
+  } catch (err) {
+    console.error("Error while fetching group alias", err);
+  }
+}
+
+export async function getAllAgents(token) {
+  try {
+    const response = await fetch(`v2/agents`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // `response` is the promise's resolved value, which contains the API response
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const conversationDetails = await response.json(); // Parse the JSON from the response
+
+    return conversationDetails;
+  } catch (err) {
+    console.error("Error while fetching all agents", err);
+  }
+  return null;
+}
+
+export async function getagentAlias(token, agentEmail) {
+  try {
+    let allagentDetails = await getAllAgents(token);
+    let agentDetails = allagentDetails["agents"].filter(
+      (agent) => agent.email === agentEmail
+    );
+    return agentDetails[0].id;
+  } catch (err) {
+    console.error("Error while fetching agent alias", err);
+  }
+}

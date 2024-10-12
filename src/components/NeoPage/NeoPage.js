@@ -12,8 +12,8 @@ export default function NeoPage() {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      setToken(event.target.value);
       localStorage.setItem("apiToken", event.target.value);
+      setToken(localStorage.getItem("apiToken"));
     }
   };
 
@@ -31,34 +31,32 @@ export default function NeoPage() {
 
           <Paper elevation={6}>
             <Box p={3} borderRadius={20} bgcolor="background.paper">
-              <form className="form-token">
-                <TextField
-                  required
-                  label="API Token"
-                  variant="outlined"
+              <TextField
+                required
+                label="API Token"
+                variant="outlined"
+                fullWidth
+                className="config-input"
+                id="token"
+                name="token"
+                onKeyDown={handleKeyPress}
+              />
+              <Box mt={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
                   fullWidth
-                  className="config-input"
-                  id="token"
-                  name="token"
-                  onKeyDown={handleKeyPress}
-                />
-                <Box mt={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    className="account-fetch-cta"
-                    onClick={async () => {
-                      const accountData = await getAccount(
-                        localStorage.getItem("apiToken")
-                      );
-                      setAccount(accountData);
-                    }}
-                  >
-                    Get Account
-                  </Button>
-                </Box>
-              </form>
+                  className="account-fetch-cta"
+                  onClick={async () => {
+                    const accountData = await getAccount(
+                      localStorage.getItem("apiToken")
+                    );
+                    setAccount(accountData);
+                  }}
+                >
+                  Get Account
+                </Button>
+              </Box>
             </Box>
           </Paper>
 

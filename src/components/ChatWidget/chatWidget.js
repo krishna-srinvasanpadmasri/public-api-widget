@@ -4,8 +4,7 @@ import {
   getAllChannels,
   getAllGroups,
   getChannelAlias,
-  getgroupAlias,
-  getagentAlias,
+  runParallelConversations,
 } from "./Utils";
 import {
   Autocomplete,
@@ -16,6 +15,8 @@ import {
   Typography,
 } from "@mui/material";
 import "./Style.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ChatWidget() {
   const [channelNames, setChannelNames] = useState([]);
@@ -26,6 +27,19 @@ export default function ChatWidget() {
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [conversationCount, setConversationCount] = useState(1);
   const [conversationDelay, setConversationDelay] = useState(1);
+  function showToaster(successText) {
+    toast.success(successText, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+      intent: "success",
+    });
+  }
 
   const fetchData = async (fetchFunction, setStateFunction) => {
     try {
@@ -33,6 +47,7 @@ export default function ChatWidget() {
       const names = response[Object.keys(response)[0]].map(
         (item) => item.name || item.email
       );
+
       setStateFunction(names);
       if (fetchFunction === getAllAgents && groupNames.size > 0) {
       }
@@ -54,28 +69,24 @@ export default function ChatWidget() {
         setSelectedGroup(e.target.value);
       } else if (e.currentTarget.ariaLabel === "channel-dd") {
         setSelectedChannel(e.target.value);
+      } else if (e.currentTarget.ariaLabel === "count-dd") {
+        setConversationCount(e.target.value);
+      } else if (e.currentTarget.ariaLabel === "delay-dd") {
+        setConversationDelay(e.target.value);
       }
     }
   };
 
   const handleCreateConversation = async (event) => {
-    console.log("Creating conversation...");
-    console.log(
-      "Creating conversations with :",
-      selectedAgent,
-      selectedChannel,
-      selectedGroup
-    );
     let apiToken = localStorage.getItem("apiToken");
     const channelAlias = await getChannelAlias(apiToken, selectedChannel);
-    const agentAlias = await getagentAlias(apiToken, selectedAgent);
-    const groupAlias = await getgroupAlias(apiToken, selectedGroup);
-    let conversationPayload = {
-      channel_id: channelAlias,
-      actor_id: agentAlias,
-      group_id: groupAlias,
-    };
-    console.log(conversationPayload);
+    // for (let i = 1; i <= parseInt(conversationCount); i++) {
+    //   await createConversation(apiToken, channelAlias);
+    // }
+
+    runParallelConversations(apiToken, channelAlias, conversationCount);
+
+    showToaster("Conversation created successfully!");
   };
 
   return (
@@ -90,7 +101,6 @@ export default function ChatWidget() {
           <Typography variant="h4" gutterBottom>
             Create Conversation
           </Typography>
-
           <Box my={3}>
             <Autocomplete
               options={channelNames}
@@ -105,7 +115,6 @@ export default function ChatWidget() {
               fullWidth
             />
           </Box>
-
           <Box my={3}>
             <Autocomplete
               options={groupNames}
@@ -120,7 +129,6 @@ export default function ChatWidget() {
               fullWidth
             />
           </Box>
-
           <Box my={3}>
             <Autocomplete
               options={agentNames}
@@ -154,25 +162,34 @@ export default function ChatWidget() {
               size="small"
             />
           </Box>
-
           <Box my={3}>
             <TextField
               label="Delay"
               type="number"
-              onChange={(e) => setConversationDelay(e.target.value)}
+              onKeyDown={handleInputChange}
               fullWidth
             />
           </Box>
-
           <Box my={3}>
             <TextField
               label="Number of conversations to be created"
               type="number"
-              onChange={(e) => setConversationCount(e.target.value)}
+              onKeyDown={handleInputChange}
+              aria-label="count-dd"
+              defaultValue={1}
               fullWidth
             />
           </Box>
-
+          <input
+            type="checkbox"
+            id="myCheckbox"
+            name="myCheckbox"
+            style={{ width: "20px", height: "20px" }}
+          />
+          &nbsp;Check this to create the conversation as full interaction with
+          CSAT Score
+          <br />
+          <br />
           <Button
             variant="contained"
             color="primary"
@@ -183,6 +200,7 @@ export default function ChatWidget() {
             Create Conversation
           </Button>
         </Box>
+        <ToastContainer />
       </Paper>
     </Box>
   );

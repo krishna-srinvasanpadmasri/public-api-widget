@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 export async function createUser(token, userPayload) {
   try {
     const response = await fetch("/v2/users", {
@@ -6,15 +7,7 @@ export async function createUser(token, userPayload) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: {
-        first_name: `${userPayload["firstName"]}`,
-        last_name: `${userPayload["LastName"]}`,
-        email: `${userPayload["email"]}`,
-        avatar: {
-          url: "https://images.indianexpress.com/2022/04/kgf-2-1200.jpg?w=389",
-        },
-        properties: `${userPayload["properties"]}`,
-      },
+      body: userPayload,
     });
 
     // `response` is the promise's resolved value, which contains the API response
@@ -65,43 +58,51 @@ export async function updateUser(token, userPayload) {
   return null;
 }
 
-export async function createConversation(
-  token,
-  userPayload,
-  conversationPayload,
-  appPayload,
-  channelPayload,
-  messageText
-) {
+export async function createConversation(token, channelAlias) {
   try {
+    const userPayload = {
+      first_name: faker.person.firstName(),
+      last_name: faker.person.lastName(),
+    };
+
+    const userCreateResponse = await createUser(
+      token,
+      JSON.stringify(userPayload)
+    );
+
+    const userAlias = userCreateResponse["id"];
+    const conversationCreatePayload = {
+      channel_id: channelAlias,
+      messages: [
+        {
+          actor_type: "user",
+          actor_id: userAlias,
+          channel_id: channelAlias,
+          message_type: "normal",
+          message_parts: [
+            {
+              text: {
+                content:
+                  "This is a sample conversation created via public api seeder",
+              },
+            },
+          ],
+        },
+      ],
+      status: "new",
+      users: [
+        {
+          id: userAlias,
+        },
+      ],
+    };
     const response = await fetch(`/v2/conversations`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: {
-        app_id: `${appPayload["app_alias"]}`,
-        channel_id: `${channelPayload["channel_alias"]}`,
-        messages: [
-          {
-            app_id: `${conversationPayload["app_alias"]}`,
-            actor_type: "user",
-            actor_id: `${userPayload["user_alias"]}`,
-            channel_id: `${channelPayload["channel_alias"]}`,
-            message_type: "normal",
-            message_parts: [
-              {
-                text: {
-                  content: `${messageText}`,
-                },
-              },
-            ],
-          },
-        ],
-        status: "new",
-        users: [{ id: `${userPayload["user_alias"]}` }],
-      },
+      body: JSON.stringify(conversationCreatePayload),
     });
 
     // `response` is the promise's resolved value, which contains the API response
@@ -113,7 +114,7 @@ export async function createConversation(
 
     return conversationDetails;
   } catch (err) {
-    console.error("User Create Error: ", err);
+    console.error("Conversation create Error: ", err);
   }
   return null;
 }
@@ -265,5 +266,23 @@ export async function getagentAlias(token, agentEmail) {
     return agentDetails[0].id;
   } catch (err) {
     console.error("Error while fetching agent alias", err);
+  }
+}
+
+export async function runParallelConversations(
+  apiToken,
+  channelAlias,
+  conversationCount
+) {
+  const promises = [];
+
+  for (let i = 1; i <= parseInt(conversationCount); i++) {
+    promises.push(createConversation(apiToken, channelAlias));
+  }
+
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    console.error("Error creating conversations:", error);
   }
 }

@@ -113,7 +113,7 @@ export default function Reports() {
   let maxRTData =
     maxRTThisWeekData === null ? chartData.data : maxRTThisWeekData.data;
   let maxRTDataLastWeek =
-    maxFRTLastWeekData === null ? chartData.data : maxFRTLastWeekData.data;
+    maxRTLastWeekData === null ? chartData.data : maxRTLastWeekData.data;
   let p90RTData =
     p90RTThisWeekData === null ? chartData.data : p90RTThisWeekData.data;
   let p90RTDataLastWeek =

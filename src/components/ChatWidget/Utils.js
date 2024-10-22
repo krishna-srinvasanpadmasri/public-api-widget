@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { httpFetch } from "../service/fetchService";
 export async function createUser(token, userPayload) {
   try {
     const response = await fetch("/v2/users", {
@@ -183,18 +184,23 @@ export async function getAllChannels(token) {
   } catch (err) {
     console.error("Error while fetching all channels", err);
   }
-  return null;
+  return {};
 }
 
 export async function getChannelAlias(token, channelName) {
-  try {
-    let allChannelDetails = await getAllChannels(token);
-    let channelDetails = allChannelDetails["channels"].filter(
+  const allChannelDetails = await getAllChannels(token);
+  if (allChannelDetails) {
+    const channelDetails = allChannelDetails["channels"].find(
       (channel) => channel.name === channelName
     );
-    return channelDetails[0].id;
-  } catch (err) {
-    console.error("Error while fetching all channels", err);
+    if (channelDetails) {
+      return channelDetails.id;
+    } else {
+      console.error("No channels found with the given channel alias");
+    }
+  } else {
+    console.error("Unable to fetch channel details", allChannelDetails);
+    return "";
   }
 }
 export async function getAllGroups(token) {
